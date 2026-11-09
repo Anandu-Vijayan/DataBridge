@@ -1,0 +1,37 @@
+name: Linters
+
+on:
+  push:
+    branches: [develop, main, version-15, version-16]
+  pull_request:
+
+concurrency:
+  group: linters-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ruff:
+    name: Ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - run: ruff check databridge
+      - run: ruff format --check databridge
+
+  semgrep:
+    name: Semgrep (frappe/semgrep-rules)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install semgrep
+      - name: Run Frappe rules
+        run: |
+          git clone --depth 1 https://github.com/frappe/semgrep-rules.git "$RUNNER_TEMP/semgrep-rules"
+          semgrep --config "$RUNNER_TEMP/semgrep-rules/rules" --metrics=off --error databridge

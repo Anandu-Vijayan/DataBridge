@@ -3,7 +3,7 @@ name = "databridge"
 authors = [
     { name = "Faircode Infotech", email = "anandu@faircodetech.com"}
 ]
-description = "Migrate data from files and databases into any Frappe DocType"
+description = "Universal data migration and synchronization for Frappe applications"
 requires-python = ">=3.11"
 readme = "README.md"
 dynamic = ["version"]
@@ -11,6 +11,7 @@ dependencies = [
     # "frappe" is installed and managed by bench.
     "defusedxml~=0.7.1",
     "openpyxl>=3.1",
+    "pymysql>=1.1",
 ]
 
 [build-system]

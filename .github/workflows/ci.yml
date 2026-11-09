@@ -10,8 +10,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint, unit tests, Frappe Semgrep rules
+  unit:
+    name: Unit tests (no site needed)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,23 +19,13 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - name: Install tools
-        run: pip install ruff pytest defusedxml openpyxl pymysql semgrep
-      - name: Ruff lint
-        run: ruff check databridge
-      - name: Ruff format
-        run: ruff format --check databridge
-      - name: Unit tests (no site needed)
-        run: pytest
-      - name: Frappe Semgrep rules
-        run: |
-          git clone --depth 1 https://github.com/frappe/semgrep-rules.git "$RUNNER_TEMP/semgrep-rules"
-          semgrep --config "$RUNNER_TEMP/semgrep-rules/rules" --metrics=off --error databridge
+      - run: pip install pytest defusedxml openpyxl pymysql
+      - run: pytest
 
   integration:
     name: Integration (Frappe ${{ matrix.frappe }})
     runs-on: ubuntu-latest
-    needs: lint
+    needs: unit
     strategy:
       fail-fast: false
       matrix:
