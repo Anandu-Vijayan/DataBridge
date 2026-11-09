@@ -1,0 +1,111 @@
+{
+	"actions": [],
+	"allow_rename": 0,
+	"autoname": "hash",
+	"creation": "2026-11-09 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"ref_key",
+		"connection",
+		"source_object",
+		"source_id",
+		"target_doctype",
+		"target_name",
+		"job",
+		"source_hash"
+	],
+	"fields": [
+		{
+			"description": "Digest of connection, source object, source id and target DocType",
+			"fieldname": "ref_key",
+			"fieldtype": "Data",
+			"label": "Ref Key",
+			"read_only": 1,
+			"reqd": 1,
+			"unique": 1
+		},
+		{
+			"fieldname": "connection",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"label": "Connection",
+			"options": "DataBridge Connection",
+			"read_only": 1,
+			"search_index": 1
+		},
+		{
+			"fieldname": "source_object",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Source Object",
+			"read_only": 1
+		},
+		{
+			"fieldname": "source_id",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Source Id",
+			"read_only": 1,
+			"search_index": 1
+		},
+		{
+			"fieldname": "target_doctype",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"label": "Target Doctype",
+			"options": "DocType",
+			"read_only": 1
+		},
+		{
+			"fieldname": "target_name",
+			"fieldtype": "Dynamic Link",
+			"in_list_view": 1,
+			"label": "Target Name",
+			"options": "target_doctype",
+			"read_only": 1
+		},
+		{
+			"fieldname": "job",
+			"fieldtype": "Link",
+			"label": "Job",
+			"options": "DataBridge Job",
+			"read_only": 1
+		},
+		{
+			"description": "Reserved for sync and change detection",
+			"fieldname": "source_hash",
+			"fieldtype": "Data",
+			"hidden": 1,
+			"label": "Source Hash"
+		}
+	],
+	"index_web_pages_for_search": 0,
+	"links": [],
+	"modified": "2026-11-09 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "DataBridge",
+	"name": "DataBridge Migration Reference",
+	"naming_rule": "Random",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager"
+		},
+		{
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "DataBridge Manager"
+		}
+	],
+	"sort_field": "creation",
+	"sort_order": "DESC",
+	"states": [],
+	"track_changes": 0
+}

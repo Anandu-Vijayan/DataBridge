@@ -1,0 +1,130 @@
+{
+	"actions": [],
+	"allow_rename": 0,
+	"autoname": "hash",
+	"creation": "2026-11-09 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"job",
+		"batch_no",
+		"source_id",
+		"status",
+		"action",
+		"target_doctype",
+		"target_name",
+		"error_code",
+		"error_message",
+		"retry_count",
+		"source_data",
+		"mapped_data"
+	],
+	"fields": [
+		{
+			"fieldname": "job",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Job",
+			"options": "DataBridge Job",
+			"reqd": 1,
+			"search_index": 1
+		},
+		{
+			"fieldname": "batch_no",
+			"fieldtype": "Int",
+			"in_list_view": 1,
+			"label": "Batch No"
+		},
+		{
+			"fieldname": "source_id",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Source Id",
+			"search_index": 1
+		},
+		{
+			"default": "Pending",
+			"fieldname": "status",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Status",
+			"options": "Pending\nValidated\nInserted\nUpdated\nSkipped\nFailed",
+			"search_index": 1
+		},
+		{
+			"fieldname": "action",
+			"fieldtype": "Data",
+			"label": "Action"
+		},
+		{
+			"fieldname": "target_doctype",
+			"fieldtype": "Data",
+			"label": "Target Doctype"
+		},
+		{
+			"fieldname": "target_name",
+			"fieldtype": "Data",
+			"label": "Target Name"
+		},
+		{
+			"fieldname": "error_code",
+			"fieldtype": "Data",
+			"in_standard_filter": 1,
+			"label": "Error Code"
+		},
+		{
+			"fieldname": "error_message",
+			"fieldtype": "Small Text",
+			"label": "Error Message"
+		},
+		{
+			"default": "0",
+			"fieldname": "retry_count",
+			"fieldtype": "Int",
+			"label": "Retry Count"
+		},
+		{
+			"description": "Raw source row, kept only for failed records so they can be retried",
+			"fieldname": "source_data",
+			"fieldtype": "Code",
+			"label": "Source Data",
+			"options": "JSON"
+		},
+		{
+			"fieldname": "mapped_data",
+			"fieldtype": "Code",
+			"label": "Mapped Data",
+			"options": "JSON"
+		}
+	],
+	"index_web_pages_for_search": 0,
+	"links": [],
+	"modified": "2026-11-09 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "DataBridge",
+	"name": "DataBridge Job Record",
+	"naming_rule": "Random",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager"
+		},
+		{
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "DataBridge Manager"
+		}
+	],
+	"sort_field": "creation",
+	"sort_order": "DESC",
+	"states": [],
+	"track_changes": 0
+}

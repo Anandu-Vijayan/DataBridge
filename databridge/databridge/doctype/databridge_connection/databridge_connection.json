@@ -1,0 +1,213 @@
+{
+	"actions": [],
+	"allow_rename": 0,
+	"autoname": "field:connection_name",
+	"creation": "2026-11-09 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"connection_name",
+		"connector",
+		"status",
+		"last_tested",
+		"last_error",
+		"file_section",
+		"source_file",
+		"has_header",
+		"encoding",
+		"column_break_file",
+		"delimiter",
+		"sheet_name",
+		"record_tag",
+		"db_section",
+		"host",
+		"port",
+		"database",
+		"column_break_db",
+		"username",
+		"password",
+		"use_ssl",
+		"advanced_section",
+		"extra_options"
+	],
+	"fields": [
+		{
+			"fieldname": "connection_name",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Connection Name",
+			"reqd": 1,
+			"unique": 1
+		},
+		{
+			"fieldname": "connector",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Connector",
+			"options": "CSV\nTSV\nXLSX\nJSON\nJSONL\nXML\nMySQL",
+			"reqd": 1
+		},
+		{
+			"default": "Untested",
+			"fieldname": "status",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"label": "Status",
+			"options": "Untested\nOK\nFailed",
+			"read_only": 1
+		},
+		{
+			"fieldname": "last_tested",
+			"fieldtype": "Datetime",
+			"label": "Last Tested",
+			"read_only": 1
+		},
+		{
+			"fieldname": "last_error",
+			"fieldtype": "Small Text",
+			"label": "Last Error",
+			"read_only": 1
+		},
+		{
+			"depends_on": "eval:doc.connector!='MySQL'",
+			"fieldname": "file_section",
+			"fieldtype": "Section Break",
+			"label": "File Source"
+		},
+		{
+			"description": "Uploaded private file. Public files are rejected.",
+			"fieldname": "source_file",
+			"fieldtype": "Attach",
+			"label": "Source File"
+		},
+		{
+			"default": "1",
+			"description": "First row holds column names (CSV, TSV, XLSX)",
+			"fieldname": "has_header",
+			"fieldtype": "Check",
+			"label": "Has Header"
+		},
+		{
+			"default": "utf-8",
+			"fieldname": "encoding",
+			"fieldtype": "Data",
+			"label": "Encoding"
+		},
+		{
+			"fieldname": "column_break_file",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": ",",
+			"description": "CSV only. Default is a comma.",
+			"fieldname": "delimiter",
+			"fieldtype": "Data",
+			"label": "Delimiter"
+		},
+		{
+			"description": "XLSX only. Empty means the first sheet.",
+			"fieldname": "sheet_name",
+			"fieldtype": "Data",
+			"label": "Sheet Name"
+		},
+		{
+			"description": "XML only. Tag name that repeats once per record.",
+			"fieldname": "record_tag",
+			"fieldtype": "Data",
+			"label": "Record Tag"
+		},
+		{
+			"depends_on": "eval:doc.connector=='MySQL'",
+			"fieldname": "db_section",
+			"fieldtype": "Section Break",
+			"label": "Database Source"
+		},
+		{
+			"fieldname": "host",
+			"fieldtype": "Data",
+			"label": "Host",
+			"mandatory_depends_on": "eval:doc.connector=='MySQL'"
+		},
+		{
+			"default": "3306",
+			"fieldname": "port",
+			"fieldtype": "Int",
+			"label": "Port"
+		},
+		{
+			"fieldname": "database",
+			"fieldtype": "Data",
+			"label": "Database",
+			"mandatory_depends_on": "eval:doc.connector=='MySQL'"
+		},
+		{
+			"fieldname": "column_break_db",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "username",
+			"fieldtype": "Data",
+			"label": "Username",
+			"mandatory_depends_on": "eval:doc.connector=='MySQL'"
+		},
+		{
+			"fieldname": "password",
+			"fieldtype": "Password",
+			"label": "Password"
+		},
+		{
+			"fieldname": "use_ssl",
+			"fieldtype": "Check",
+			"label": "Use Ssl"
+		},
+		{
+			"collapsible": 1,
+			"fieldname": "advanced_section",
+			"fieldtype": "Section Break",
+			"label": "Advanced"
+		},
+		{
+			"description": "Reserved for future connector options",
+			"fieldname": "extra_options",
+			"fieldtype": "Code",
+			"label": "Extra Options",
+			"options": "JSON"
+		}
+	],
+	"index_web_pages_for_search": 0,
+	"links": [],
+	"modified": "2026-11-09 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "DataBridge",
+	"name": "DataBridge Connection",
+	"naming_rule": "By fieldname",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "DataBridge Manager",
+			"share": 1,
+			"write": 1
+		}
+	],
+	"sort_field": "creation",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "connection_name",
+	"track_changes": 1
+}

@@ -1,0 +1,280 @@
+{
+	"actions": [],
+	"allow_rename": 0,
+	"autoname": "format:DBJ-{#####}",
+	"creation": "2026-11-09 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"title",
+		"mapping",
+		"status",
+		"column_break_a",
+		"mode",
+		"dry_run",
+		"submit_documents",
+		"batch_size",
+		"progress_section",
+		"total_read",
+		"processed",
+		"inserted",
+		"updated",
+		"column_break_p",
+		"skipped",
+		"failed",
+		"validated",
+		"current_batch",
+		"run_section",
+		"run_as",
+		"started_at",
+		"ended_at",
+		"column_break_r",
+		"phase",
+		"stop_requested",
+		"last_error",
+		"internal_section",
+		"mapping_snapshot",
+		"checkpoint",
+		"depends_on_job",
+		"extra_config"
+	],
+	"fields": [
+		{
+			"fieldname": "title",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Title"
+		},
+		{
+			"fieldname": "mapping",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Mapping",
+			"options": "DataBridge Mapping",
+			"reqd": 1
+		},
+		{
+			"default": "Draft",
+			"fieldname": "status",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Status",
+			"options": "Draft\nQueued\nRunning\nPaused\nCancelled\nCompleted\nCompleted With Errors\nFailed",
+			"read_only": 1
+		},
+		{
+			"fieldname": "column_break_a",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": "Insert",
+			"fieldname": "mode",
+			"fieldtype": "Select",
+			"label": "Mode",
+			"options": "Insert\nUpdate\nUpsert\nSkip",
+			"reqd": 1
+		},
+		{
+			"description": "Validate and map only. Nothing is written to the target.",
+			"fieldname": "dry_run",
+			"fieldtype": "Check",
+			"label": "Dry Run"
+		},
+		{
+			"description": "Submit documents after insert. Needs submit permission. Draft is the default.",
+			"fieldname": "submit_documents",
+			"fieldtype": "Check",
+			"label": "Submit Documents"
+		},
+		{
+			"default": "200",
+			"description": "1 to 1000 records per background job",
+			"fieldname": "batch_size",
+			"fieldtype": "Int",
+			"label": "Batch Size"
+		},
+		{
+			"fieldname": "progress_section",
+			"fieldtype": "Section Break",
+			"label": "Progress"
+		},
+		{
+			"fieldname": "total_read",
+			"fieldtype": "Int",
+			"label": "Total Read",
+			"read_only": 1
+		},
+		{
+			"fieldname": "processed",
+			"fieldtype": "Int",
+			"label": "Processed",
+			"read_only": 1
+		},
+		{
+			"fieldname": "inserted",
+			"fieldtype": "Int",
+			"label": "Inserted",
+			"read_only": 1
+		},
+		{
+			"fieldname": "updated",
+			"fieldtype": "Int",
+			"label": "Updated",
+			"read_only": 1
+		},
+		{
+			"fieldname": "column_break_p",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "skipped",
+			"fieldtype": "Int",
+			"label": "Skipped",
+			"read_only": 1
+		},
+		{
+			"fieldname": "failed",
+			"fieldtype": "Int",
+			"label": "Failed",
+			"read_only": 1
+		},
+		{
+			"description": "Dry run: records that passed validation",
+			"fieldname": "validated",
+			"fieldtype": "Int",
+			"label": "Validated",
+			"read_only": 1
+		},
+		{
+			"fieldname": "current_batch",
+			"fieldtype": "Int",
+			"label": "Current Batch",
+			"read_only": 1
+		},
+		{
+			"fieldname": "run_section",
+			"fieldtype": "Section Break",
+			"label": "Run Details"
+		},
+		{
+			"fieldname": "run_as",
+			"fieldtype": "Link",
+			"label": "Run As",
+			"options": "User",
+			"read_only": 1
+		},
+		{
+			"fieldname": "started_at",
+			"fieldtype": "Datetime",
+			"label": "Started At",
+			"read_only": 1
+		},
+		{
+			"fieldname": "ended_at",
+			"fieldtype": "Datetime",
+			"label": "Ended At",
+			"read_only": 1
+		},
+		{
+			"fieldname": "column_break_r",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": "migrate",
+			"fieldname": "phase",
+			"fieldtype": "Select",
+			"hidden": 1,
+			"label": "Phase",
+			"options": "migrate\nretry",
+			"read_only": 1
+		},
+		{
+			"fieldname": "stop_requested",
+			"fieldtype": "Select",
+			"hidden": 1,
+			"label": "Stop Requested",
+			"options": "\nPause\nCancel",
+			"read_only": 1
+		},
+		{
+			"fieldname": "last_error",
+			"fieldtype": "Small Text",
+			"label": "Last Error",
+			"read_only": 1
+		},
+		{
+			"collapsible": 1,
+			"collapsible_depends_on": "eval:0",
+			"fieldname": "internal_section",
+			"fieldtype": "Section Break",
+			"label": "Internal"
+		},
+		{
+			"description": "Mapping frozen when the run started",
+			"fieldname": "mapping_snapshot",
+			"fieldtype": "Code",
+			"label": "Mapping Snapshot",
+			"options": "JSON",
+			"read_only": 1
+		},
+		{
+			"fieldname": "checkpoint",
+			"fieldtype": "Code",
+			"label": "Checkpoint",
+			"options": "JSON",
+			"read_only": 1
+		},
+		{
+			"description": "Reserved for job dependencies",
+			"fieldname": "depends_on_job",
+			"fieldtype": "Link",
+			"hidden": 1,
+			"label": "Depends On Job",
+			"options": "DataBridge Job"
+		},
+		{
+			"fieldname": "extra_config",
+			"fieldtype": "Code",
+			"hidden": 1,
+			"label": "Extra Config",
+			"options": "JSON"
+		}
+	],
+	"index_web_pages_for_search": 0,
+	"links": [],
+	"modified": "2026-11-09 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "DataBridge",
+	"name": "DataBridge Job",
+	"naming_rule": "Expression",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "DataBridge Manager",
+			"share": 1,
+			"write": 1
+		}
+	],
+	"sort_field": "creation",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "title",
+	"track_changes": 1
+}

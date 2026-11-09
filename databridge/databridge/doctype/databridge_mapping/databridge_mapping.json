@@ -1,0 +1,156 @@
+{
+	"actions": [],
+	"allow_rename": 0,
+	"autoname": "field:mapping_name",
+	"creation": "2026-11-09 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"mapping_name",
+		"connection",
+		"source_object",
+		"column_break_a",
+		"target_doctype",
+		"source_id_field",
+		"rules_section",
+		"default_mode",
+		"match_field",
+		"fields_section",
+		"fields",
+		"advanced_section",
+		"schema_version",
+		"extra_config"
+	],
+	"fields": [
+		{
+			"fieldname": "mapping_name",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Mapping Name",
+			"reqd": 1,
+			"unique": 1
+		},
+		{
+			"fieldname": "connection",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Connection",
+			"options": "DataBridge Connection",
+			"reqd": 1
+		},
+		{
+			"description": "Table, sheet or logical name of the source. Use 'default' for single-object files.",
+			"fieldname": "source_object",
+			"fieldtype": "Data",
+			"label": "Source Object",
+			"reqd": 1
+		},
+		{
+			"fieldname": "column_break_a",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "target_doctype",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Target Doctype",
+			"options": "DocType",
+			"reqd": 1
+		},
+		{
+			"description": "Source column that uniquely identifies a record. MySQL falls back to the primary key.",
+			"fieldname": "source_id_field",
+			"fieldtype": "Data",
+			"label": "Source Id Field"
+		},
+		{
+			"fieldname": "rules_section",
+			"fieldtype": "Section Break",
+			"label": "Write Rules"
+		},
+		{
+			"default": "Insert",
+			"fieldname": "default_mode",
+			"fieldtype": "Select",
+			"label": "Default Mode",
+			"options": "Insert\nUpdate\nUpsert\nSkip",
+			"reqd": 1
+		},
+		{
+			"description": "Target field used to find an existing document when no reference exists (update, upsert, skip)",
+			"fieldname": "match_field",
+			"fieldtype": "Data",
+			"label": "Match Field"
+		},
+		{
+			"fieldname": "fields_section",
+			"fieldtype": "Section Break",
+			"label": "Field Mapping"
+		},
+		{
+			"fieldname": "fields",
+			"fieldtype": "Table",
+			"label": "Fields",
+			"options": "DataBridge Mapping Field",
+			"reqd": 1
+		},
+		{
+			"collapsible": 1,
+			"fieldname": "advanced_section",
+			"fieldtype": "Section Break",
+			"label": "Advanced"
+		},
+		{
+			"default": "1",
+			"fieldname": "schema_version",
+			"fieldtype": "Int",
+			"hidden": 1,
+			"label": "Schema Version",
+			"read_only": 1
+		},
+		{
+			"fieldname": "extra_config",
+			"fieldtype": "Code",
+			"hidden": 1,
+			"label": "Extra Config",
+			"options": "JSON"
+		}
+	],
+	"index_web_pages_for_search": 0,
+	"links": [],
+	"modified": "2026-11-09 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "DataBridge",
+	"name": "DataBridge Mapping",
+	"naming_rule": "By fieldname",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "DataBridge Manager",
+			"share": 1,
+			"write": 1
+		}
+	],
+	"sort_field": "creation",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "mapping_name",
+	"track_changes": 1
+}

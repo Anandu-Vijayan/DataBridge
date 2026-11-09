@@ -1,0 +1,88 @@
+{
+	"actions": [],
+	"allow_rename": 0,
+	"autoname": "hash",
+	"creation": "2026-11-09 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"job",
+		"level",
+		"event",
+		"batch_no",
+		"message",
+		"details"
+	],
+	"fields": [
+		{
+			"fieldname": "job",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Job",
+			"options": "DataBridge Job",
+			"reqd": 1,
+			"search_index": 1
+		},
+		{
+			"default": "Info",
+			"fieldname": "level",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Level",
+			"options": "Info\nWarning\nError"
+		},
+		{
+			"fieldname": "event",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Event"
+		},
+		{
+			"fieldname": "batch_no",
+			"fieldtype": "Int",
+			"label": "Batch No"
+		},
+		{
+			"fieldname": "message",
+			"fieldtype": "Small Text",
+			"in_list_view": 1,
+			"label": "Message"
+		},
+		{
+			"fieldname": "details",
+			"fieldtype": "Code",
+			"label": "Details",
+			"options": "JSON"
+		}
+	],
+	"index_web_pages_for_search": 0,
+	"links": [],
+	"modified": "2026-11-09 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "DataBridge",
+	"name": "DataBridge Execution Log",
+	"naming_rule": "Random",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager"
+		},
+		{
+			"delete": 1,
+			"export": 1,
+			"read": 1,
+			"report": 1,
+			"role": "DataBridge Manager"
+		}
+	],
+	"sort_field": "creation",
+	"sort_order": "DESC",
+	"states": [],
+	"track_changes": 0
+}

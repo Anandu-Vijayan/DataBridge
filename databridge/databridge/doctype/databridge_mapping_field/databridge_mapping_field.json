@@ -1,0 +1,91 @@
+{
+	"actions": [],
+	"allow_rename": 0,
+	"creation": "2026-11-09 00:00:00.000000",
+	"doctype": "DocType",
+	"editable_grid": 1,
+	"engine": "InnoDB",
+	"field_order": [
+		"source_field",
+		"target_field",
+		"transform",
+		"transform_args",
+		"formula",
+		"default_value",
+		"skip_if_empty",
+		"target_table"
+	],
+	"fields": [
+		{
+			"columns": 2,
+			"fieldname": "source_field",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Source Field",
+			"reqd": 1
+		},
+		{
+			"columns": 2,
+			"fieldname": "target_field",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Target Field",
+			"reqd": 1
+		},
+		{
+			"columns": 2,
+			"fieldname": "transform",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"label": "Transform",
+			"options": "\ntrim\nupper\nlower\ntitle\nint\nfloat\nbool\ndate\ndatetime\nreplace\nnull_if_empty\nstrip_html\nformula"
+		},
+		{
+			"description": "Arguments for the transform, e.g. date format or replace pairs",
+			"fieldname": "transform_args",
+			"fieldtype": "Data",
+			"label": "Transform Args"
+		},
+		{
+			"depends_on": "eval:doc.transform=='formula'",
+			"description": "Restricted expression. Variables: value, row",
+			"fieldname": "formula",
+			"fieldtype": "Small Text",
+			"label": "Formula"
+		},
+		{
+			"columns": 2,
+			"description": "Used when the source value is empty",
+			"fieldname": "default_value",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Default Value"
+		},
+		{
+			"description": "Do not set the target field when the source is empty",
+			"fieldname": "skip_if_empty",
+			"fieldtype": "Check",
+			"label": "Skip If Empty"
+		},
+		{
+			"description": "Reserved for child-table mapping. Empty means the main document.",
+			"fieldname": "target_table",
+			"fieldtype": "Data",
+			"hidden": 1,
+			"label": "Target Table"
+		}
+	],
+	"index_web_pages_for_search": 0,
+	"istable": 1,
+	"links": [],
+	"modified": "2026-11-09 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "DataBridge",
+	"name": "DataBridge Mapping Field",
+	"owner": "Administrator",
+	"permissions": [],
+	"sort_field": "creation",
+	"sort_order": "DESC",
+	"states": [],
+	"track_changes": 1
+}
