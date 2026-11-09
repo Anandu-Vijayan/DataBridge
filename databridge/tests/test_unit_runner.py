@@ -248,11 +248,8 @@ def test_permission_failure_fails_job_before_reading(tmp_path):
 	store = FakeStore(make_state())
 	store.deny = "no create permission"
 	assert process_batch(JOB, store, conn, lambda s, st: FakeProcessor(store), []) == "failed"
-	assert (
-		store.state.status == "Failed" and "PERMISSION_DENIED" in store.state.last_error
-		if hasattr(store.state, "last_error")
-		else True
-	)
+	assert store.state.status == "Failed"
+	assert "PERMISSION_DENIED" in store.last_error
 	assert store.records == [] and store.rollbacks == 1
 
 
