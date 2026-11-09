@@ -38,6 +38,7 @@ class FakeStore:
 		self.deny: str | None = None
 		self.rollbacks = 0
 		self.commits = 0
+		self.last_error = ""
 
 	# -- JobStore protocol
 	def lock_state(self, job):
@@ -80,6 +81,8 @@ class FakeStore:
 		]
 
 	def save_progress(self, state, **c):
+		if c.get("last_error"):
+			self.last_error = c["last_error"]
 		for key in ("status", "phase", "stop_requested", "last_error", "current_batch"):
 			if key in c:
 				setattr(self.state, key, c[key])
