@@ -121,7 +121,8 @@ class JsonConnector(Connector):
 	name = "JSON"
 
 	def _open(self) -> TextIO:
-		return open(require_path(self.config), encoding=_encoding(self), newline="")
+		# Path comes from require_path(): a private File resolved by resolve_private_file_path().
+		return open(require_path(self.config), encoding=_encoding(self), newline="")  # nosemgrep
 
 	def test(self) -> None:
 		with self._open() as handle:
@@ -154,7 +155,8 @@ class JsonlConnector(Connector):
 	name = "JSONL"
 
 	def _open(self):
-		return open(require_path(self.config), "rb")
+		# Path comes from require_path(): a private File resolved by resolve_private_file_path().
+		return open(require_path(self.config), "rb")  # nosemgrep
 
 	def test(self) -> None:
 		self.read_batch("default", None, 1)

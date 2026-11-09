@@ -110,7 +110,7 @@ def _replace(value: Any, args: str) -> Any:
 	"""args: 'old=>new;old2=>new2'. Applied in order, plain text (no regex)."""
 	if not isinstance(value, str):
 		return value
-	for pair in filter(None, (p for p in args.split(";"))):
+	for pair in (p for p in args.split(";") if p):
 		if "=>" not in pair:
 			raise DataBridgeError(
 				errors.TRANSFORM_ERROR, "replace arguments must look like old=>new;old2=>new2"

@@ -168,7 +168,8 @@ class FrappeJobStore:
 	def commit(self) -> None:
 		import frappe
 
-		frappe.db.commit()  # nosemgrep: one batch = one transaction, committed here by design
+		# One batch is one transaction: target docs, references and records commit together here.
+		frappe.db.commit()  # nosemgrep
 
 	# ------------------------------------------------------------------ records and logs
 	def _stage(self, data: dict[str, Any] | None) -> str | None:
@@ -285,7 +286,8 @@ def run_batch(job: str) -> None:
 	run_as, snapshot_json = frappe.db.get_value(JOB, job, ["run_as", "mapping_snapshot"]) or (None, None)
 	if not run_as or not snapshot_json:
 		return
-	frappe.set_user(run_as)  # target writes use this user's permissions
+	# Target writes must run with the permissions of the user who started the job.
+	frappe.set_user(run_as)  # nosemgrep
 
 	store = FrappeJobStore()
 	try:

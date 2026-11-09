@@ -25,9 +25,9 @@ packages = []
 
 [tool.pytest.ini_options]
 testpaths = ["databridge/tests"]
-python_files = ["test_*.py"]
-# Frappe integration tests run through `bench run-tests`; pytest only runs the pure unit tests
-# (files named test_unit_*.py) that do not need a site.
+python_files = ["test_unit_*.py"]
+# Integration tests (test_integration_*.py) need a site and run through `bench run-tests`.
+# pytest only collects the pure unit tests (test_unit_*.py).
 addopts = "-q"
 
 [tool.ruff]

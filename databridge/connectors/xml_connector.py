@@ -44,7 +44,8 @@ class XmlConnector(Connector):
 	def _iter_records(self) -> Iterator[dict[str, Any]]:
 		tag = self._record_tag()
 		path = require_path(self.config)
-		with open(path, "rb") as handle:
+		# Path comes from require_path(): a private File resolved by resolve_private_file_path().
+		with open(path, "rb") as handle:  # nosemgrep
 			root = None
 			try:
 				for event, element in SafeET.iterparse(

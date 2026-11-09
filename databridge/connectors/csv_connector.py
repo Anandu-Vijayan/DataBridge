@@ -72,7 +72,8 @@ class CsvConnector(Connector):
 		return next(csv.reader([text], delimiter=self._delimiter()), [])
 
 	def _open(self) -> BinaryIO:
-		return open(require_path(self.config), "rb")
+		# Path comes from require_path(): a private File resolved by resolve_private_file_path().
+		return open(require_path(self.config), "rb")  # nosemgrep
 
 	def _header_and_start(self, handle: BinaryIO) -> tuple[list[str], int]:
 		raw, consumed = self._read_raw(handle)

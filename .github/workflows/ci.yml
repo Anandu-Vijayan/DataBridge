@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main, version-15, version-16]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint, unit tests, Frappe Semgrep rules
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install tools
+        run: pip install ruff pytest defusedxml openpyxl pymysql semgrep
+      - name: Ruff lint
+        run: ruff check databridge
+      - name: Ruff format
+        run: ruff format --check databridge
+      - name: Unit tests (no site needed)
+        run: pytest
+      - name: Frappe Semgrep rules
+        run: |
+          git clone --depth 1 https://github.com/frappe/semgrep-rules.git "$RUNNER_TEMP/semgrep-rules"
+          semgrep --config "$RUNNER_TEMP/semgrep-rules/rules" --metrics=off --error databridge
+
+  integration:
+    name: Integration (Frappe ${{ matrix.frappe }})
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - frappe: version-15
+            python: "3.11"
+            node: "20"
+          - frappe: version-16
+            python: "3.14"
+            node: "24"
+    # The repository directory must be named like the app ("databridge") for bench get-app.
+    env:
+      DB_ROOT_PASSWORD: ${{ secrets.CI_DB_ROOT_PASSWORD }}
+    services:
+      mariadb:
+        image: mariadb:11.8
+        env:
+          MARIADB_ROOT_PASSWORD: ${{ secrets.CI_DB_ROOT_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=10
+      redis-cache:
+        image: redis:alpine
+        ports: ["13000:6379"]
+      redis-queue:
+        image: redis:alpine
+        ports: ["11000:6379"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: databridge
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: System packages
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libcups2-dev redis-tools mariadb-client
+      - name: Install bench
+        run: pip install frappe-bench
+      - name: Init bench
+        run: |
+          bench init --skip-redis-config-generation --skip-assets --python "$(which python)" \
+            --frappe-branch ${{ matrix.frappe }} ~/frappe-bench
+      - name: Source database for the MySQL connector test
+        run: |
+          mariadb --host 127.0.0.1 --port 3306 -u root -p"$DB_ROOT_PASSWORD" \
+            -e "CREATE DATABASE IF NOT EXISTS databridge_src"
+      - name: Site and app
+        working-directory: /home/runner/frappe-bench
+        run: |
+          bench get-app databridge "$GITHUB_WORKSPACE/databridge"
+          bench setup requirements --dev
+          bench new-site --db-root-password "$DB_ROOT_PASSWORD" --admin-password "$DB_ROOT_PASSWORD" test_site
+          bench --site test_site install-app databridge
+          bench --site test_site set-config allow_tests true
+      - name: Integration tests
+        working-directory: /home/runner/frappe-bench
+        env:
+          DATABRIDGE_TEST_MYSQL_HOST: 127.0.0.1
+          DATABRIDGE_TEST_MYSQL_USER: root
+          DATABRIDGE_TEST_MYSQL_PASSWORD: ${{ secrets.CI_DB_ROOT_PASSWORD }}
+          DATABRIDGE_TEST_MYSQL_DB: databridge_src
+        run: bench --site test_site run-tests --app databridge
+      - name: Prove the app installs without ERPNext
+        working-directory: /home/runner/frappe-bench
+        run: |
+          bench --site test_site list-apps | tee apps.txt
+          ! grep -q erpnext apps.txt
