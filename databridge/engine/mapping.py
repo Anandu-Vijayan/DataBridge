@@ -152,12 +152,18 @@ def extract_source_id(row: Mapping[str, Any], source_id_field: str) -> str:
 	"""Stable string id for a source record. Missing or blank is a record-level error."""
 	if not source_id_field:
 		raise DataBridgeError(errors.MISSING_SOURCE_ID, "No source ID field is configured")
-	value = row.get(source_id_field)
-	if is_empty(value):
-		raise DataBridgeError(errors.MISSING_SOURCE_ID, f"Source ID column {source_id_field!r} is empty")
-	if isinstance(value, float) and value.is_integer():
-		value = int(value)  # XLSX returns 5.0 for the number 5
-	return str(value).strip()
+	# "a,b" means a composite key (for example a multi-column primary key), joined with ":".
+	parts: list[str] = []
+	for column in (c.strip() for c in source_id_field.split(",") if c.strip()):
+		value = row.get(column)
+		if is_empty(value):
+			raise DataBridgeError(errors.MISSING_SOURCE_ID, f"Source ID column {column!r} is empty")
+		if isinstance(value, float) and value.is_integer():
+			value = int(value)  # XLSX returns 5.0 for the number 5
+		parts.append(str(value).strip())
+	if not parts:
+		raise DataBridgeError(errors.MISSING_SOURCE_ID, "No source ID field is configured")
+	return ":".join(parts)
 
 
 def map_record(row: Mapping[str, Any], spec: MappingSpec, evaluator: Evaluator | None = None) -> MappedRecord:
