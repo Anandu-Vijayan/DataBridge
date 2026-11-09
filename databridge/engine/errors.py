@@ -1,0 +1,72 @@
+"""Error codes and the exception type shared by every DataBridge layer.
+
+Codes are constants, never ad-hoc strings. Messages must never contain credentials.
+"""
+
+from __future__ import annotations
+
+# API / request level
+INVALID_INPUT = "INVALID_INPUT"
+NOT_FOUND = "NOT_FOUND"
+PERMISSION_DENIED = "PERMISSION_DENIED"
+INVALID_STATE = "INVALID_STATE"
+INTERNAL_ERROR = "INTERNAL_ERROR"
+
+# Connection / source level
+CONNECTION_FAILED = "CONNECTION_FAILED"
+UNSUPPORTED_SOURCE = "UNSUPPORTED_SOURCE"
+SOURCE_READ_ERROR = "SOURCE_READ_ERROR"
+SOURCE_FILE_MISSING = "SOURCE_FILE_MISSING"
+INVALID_IDENTIFIER = "INVALID_IDENTIFIER"
+
+# Mapping / record level
+MISSING_SOURCE_ID = "MISSING_SOURCE_ID"
+MAPPING_INVALID = "MAPPING_INVALID"
+TRANSFORM_ERROR = "TRANSFORM_ERROR"
+FORMULA_ERROR = "FORMULA_ERROR"
+VALIDATION_ERROR = "VALIDATION_ERROR"
+REQUIRED_FIELD_MISSING = "REQUIRED_FIELD_MISSING"
+LINK_NOT_FOUND = "LINK_NOT_FOUND"
+INVALID_OPTION = "INVALID_OPTION"
+VALUE_TOO_LONG = "VALUE_TOO_LONG"
+
+# Write level
+WRITE_FAILED = "WRITE_FAILED"
+DUPLICATE_TARGET = "DUPLICATE_TARGET"
+TARGET_NOT_FOUND = "TARGET_NOT_FOUND"
+SUBMIT_NOT_ALLOWED = "SUBMIT_NOT_ALLOWED"
+SUBMIT_FAILED = "SUBMIT_FAILED"
+
+# Run level
+JOB_CANCELLED = "JOB_CANCELLED"
+JOB_FAILED = "JOB_FAILED"
+
+RECORD_LEVEL_CODES = frozenset(
+	{
+		MISSING_SOURCE_ID,
+		TRANSFORM_ERROR,
+		FORMULA_ERROR,
+		VALIDATION_ERROR,
+		REQUIRED_FIELD_MISSING,
+		LINK_NOT_FOUND,
+		INVALID_OPTION,
+		VALUE_TOO_LONG,
+		WRITE_FAILED,
+		DUPLICATE_TARGET,
+		TARGET_NOT_FOUND,
+		SUBMIT_NOT_ALLOWED,
+		SUBMIT_FAILED,
+	}
+)
+
+
+class DataBridgeError(Exception):
+	"""Raised for any expected failure. Carries a stable code and a safe message."""
+
+	def __init__(self, code: str, message: str) -> None:
+		super().__init__(message)
+		self.code = code
+		self.message = message
+
+	def __str__(self) -> str:
+		return f"[{self.code}] {self.message}"

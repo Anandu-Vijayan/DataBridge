@@ -8,7 +8,7 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
-        files: "fc_data_mapper.*"
+        files: "databridge.*"
         exclude: ".*json$|.*txt$|.*csv|.*md|.*svg"
       - id: check-merge-conflict
       - id: check-ast
@@ -38,11 +38,11 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                fc_data_mapper/public/dist/.*|
+                databridge/public/dist/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                fc_data_mapper/templates/includes/.*|
-                fc_data_mapper/public/js/lib/.*
+                databridge/templates/includes/.*|
+                databridge/public/js/lib/.*
             )$
 
 
@@ -55,12 +55,12 @@ repos:
         # Ignore any files that might contain jinja / bundles
         exclude: |
             (?x)^(
-                fc_data_mapper/public/dist/.*|
+                databridge/public/dist/.*|
                 cypress/.*|
                 .*node_modules.*|
                 .*boilerplate.*|
-                fc_data_mapper/templates/includes/.*|
-                fc_data_mapper/public/js/lib/.*
+                databridge/templates/includes/.*|
+                databridge/public/js/lib/.*
             )$
 
 ci:
