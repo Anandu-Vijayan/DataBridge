@@ -194,3 +194,29 @@ def map_record(row: Mapping[str, Any], spec: MappingSpec, evaluator: Evaluator |
 				value = None
 		values[rule.target_field] = value
 	return MappedRecord(source_id=source_id, values=values)
+
+
+def _norm(name: str) -> str:
+	return "".join(ch for ch in str(name).lower() if ch.isalnum())
+
+
+def suggest_rules(
+	source_fields: Iterable[str], targets: Mapping[str, str], max_rows: int = 200
+) -> list[dict[str, str]]:
+	"""Match source columns to target fields by normalised name or label.
+
+	targets maps fieldname -> label. Each target is used once; exact normalised matches only,
+	so a suggestion is never a guess. Returns rows shaped like the Mapping Field child table.
+	"""
+	by_key: dict[str, str] = {}
+	for fieldname, label in targets.items():
+		by_key.setdefault(_norm(fieldname), fieldname)
+		by_key.setdefault(_norm(label or ""), fieldname)
+	used: set[str] = set()
+	rows: list[dict[str, str]] = []
+	for source in source_fields:
+		target = by_key.get(_norm(source))
+		if target and target not in used and len(rows) < max_rows:
+			used.add(target)
+			rows.append({"source_field": source, "target_field": target})
+	return rows

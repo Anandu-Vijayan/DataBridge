@@ -223,7 +223,7 @@ class FrappeJobStore:
 			filters={"job": job, "status": "Failed", "name": (">", after)},
 			fields=["name", "source_id", "source_data", "retry_count"],
 			order_by="name asc",
-			limit_page_length=limit,
+			page_length=limit,
 		)
 		return [
 			FailedRecord(
@@ -262,7 +262,7 @@ class FrappeJobStore:
 		enqueue_batch(job, batch_no)
 
 
-def enqueue_batch(job: str, batch_no: int) -> None:
+def enqueue_batch(job: str, batch_no: int, after_commit: bool = False) -> None:
 	"""Queue the next single-batch job. Deduplicated by job id so a double enqueue cannot double-run."""
 	import frappe
 
@@ -272,6 +272,7 @@ def enqueue_batch(job: str, batch_no: int) -> None:
 		timeout=BATCH_TIMEOUT,
 		job_id=f"databridge::{job}::{batch_no}",
 		deduplicate=True,
+		enqueue_after_commit=after_commit,
 		job_name=f"databridge {job} batch {batch_no}",
 		job=job,
 	)
